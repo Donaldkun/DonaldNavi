@@ -1,0 +1,4 @@
+name: DonaldNavi
+version: '1.0'
+main: Kasteve.donald.donaldNavi.DonaldNavi
+api-version: '1.21'

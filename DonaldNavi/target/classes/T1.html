@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donald-SMP</title>
+  <style>
+    body {
+        background-color: #1a1a1a;
+        color: #f0f0f0;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-top: 50px;
+    }
+    .icon {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 80px;
+        height: auto;
+    }
+    button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s, transform 0.2s;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    button:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+    }
+    h1 {
+        color: #00ffff;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        font-size: 30px;
+    }
+    h1x {
+        color: #ffc400;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        font-size: 40px;
+    }
+    h3x {
+        color: #5778ff;
+        font-size: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+    h2 {
+        color: #00cc99;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    }
+    p {
+        color: #e0e0e0;
+        font-size: 18px;
+        margin: 10px 0;
+    }
+    .Sta {
+        color: #4caf50;
+        font-weight: bold;
+        font-size: 20px;
+    }
+    .status-container {
+        background-color: #2a2a2a;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        display: inline-block;
+        margin-top: 20px;
+    }
+    .tab {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background-color: #007bff;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+   .tab-content {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #2a2a2a;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    width: 80%;
+    height: 60%;
+    max-width: 800px;
+    max-height: 600px;
+    overflow: auto;
+}
+.reloadb {
+   background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+    display: block;
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.close-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+    display: block;
+    width: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.discord {
+    background-color: #0d00ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+    display: block;
+    width: 150px;
+    margin-left: auto;
+    margin-right: auto;
+}
+    .server-address {
+        border: 2px solid #00cc99;
+        border-radius: 8px;
+        padding: 5px;
+        margin: 10px 0;
+        display: inline-block;
+        background-color: #1a1a1a;
+    }
+    .address {
+        font-weight: bold;
+        font-size: 24px;
+        color: #33ff00;
+    }
+    .ad {
+        font-weight: bold;
+        font-size: 24px;
+        color: #00ffea;
+    }
+    h3 {
+        color: #0dff00;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    }
+    .information {
+        background-color: #2a2a2a;
+    }
+    .donate {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-top: 20px;
+        display: block;
+        width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+  </style>
+  <script>
+    function joinDiscord() {
+        window.location.href = 'https://discord.gg/bdZFpDFWkM';
+    }
+
+    function updateTime() {
+        fetch('/web/realtime')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('realtime').innerText = data.time;
+                document.getElementById('mem').innerText = data.memoryMB + " MB";
+                document.getElementById('isOnline').innerText = data.isOnline ? "オンライン" : "アイドル状態(1時間以上)";
+                document.getElementById('usage').innerText = data.usage + " %";
+                document.getElementById('uptime').innerText = data.uptime;
+                document.getElementById('task').innerText = data.task;
+                document.getElementById('server').innerText = data.server;
+            });
+    }
+
+    setInterval(updateTime, 1000);
+
+    function toggleTab() {
+        const tabContent = document.getElementById('tab-content');
+        tabContent.style.display = tabContent.style.display === 'none' || tabContent.style.display === '' ? 'block' : 'none';
+    }
+
+    function closeTab() {
+        document.getElementById('tab-content').style.display = 'none';
+    }
+  </script>
+</head>
+<body>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQr1Xwanznm5n3T3jkoMKOuIhTVXov6HwnYzg&s" alt="Icon" class="icon">
+<h1x>Donald-SMP</h1x>
+<h1>ようこそ</h1>
+<h2>ここはDonald-SMP公式サイトです。</h2>
+<div class="tab" onclick="toggleTab();">参加方法</div>
+
+<div class="status-container">
+  <p>システムステータス: <span class="Sta" id="isOnline">{isOnline}</span></p>
+  <p>システム稼働時間: <span id="uptime">{uptime}</span></p>
+  <p>タスク数: <span id="task">{task}</span></p>
+  <p>メモリ使用率(%): <span id="usage">{usage}</span></p>
+  <p>メモリ使用率(MB): <span id="mem">{mem}</span></p>
+  <p>現在の時間: <span id="realtime">{realtime}</span></p>
+  <p>このサイトは <span id="server">{server}</span>で稼働しています。</p>
+</div>
+<h3><span class="h3x">うまく表示されない場合はボタンを押してください。</span></h3>
+<button class="reloadb" onclick="location.reload();">情報を更新</button>
+
+<h4>このサイトはJavaとHtmlで動作しています。</h4>
+<h4>Created by Donald_kun (2024/10/1)</h4>
+
+<div class="container3">
+  <h1>サポートをお願いします！</h1>
+  <p>あなたのご寄付が、私たちのプロジェクトの成長を助けます。</p>
+
+  <!-- PayPal寄付ボタン -->
+  <form action="https://www.paypal.com/donate" method="post" target="_blank">
+    <input type="hidden" name="business" value="YOUR_PAYPAL_EMAIL">
+    <input type="hidden" name="currency_code" value="JPY">
+    <button type="submit">PayPalで寄付</button>
+  </form>
+</div>
+
+<div id="tab-content" class="tab-content">
+  <h2>参加方法</h2>
+  <h3>・サーバーのアドレスを確認する。</h3>
+  <h3>・ゲームを起動する。</h3>
+  <h3>・マルチプレイモードを選択する。</h3>
+  <h3>・サーバーアドレスを入力して接続する。</h3>
+
+  <div class="server-address">
+    <p><span class="ad">サーバーアドレス:</span> <span class="address">DSMP.net</span></p>
+  </div>
+  <div id="information" class="information">
+    <h3x>Discordに参加してください！</h3x>
+    <button class="discord" onclick="joinDiscord();">Discordに参加</button>
+  </div>
+  <button class="close-button" onclick="closeTab();">閉じる</button>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,14 @@
+Server:
+  name: "lobby"
+title: "%b%lDonald's Server!"
+Lists:
+  - "%a[Location]"
+  - "%a[Realtime]"
+  - "[MEM-info]"
+  - "[MEM-Usage]"
+  - "%aPing:[PING]ms"
+  - "%bServer:%l[Server-name]"
+  - "%bPlayers: [Player-info]"
+
+# "☆" means change memory color
+# %は色を変えるコードです。
